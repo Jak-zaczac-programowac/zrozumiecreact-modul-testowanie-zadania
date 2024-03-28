@@ -1,23 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export function UserList() {
     const [users, setUsers] = useState([]);
     const [showActiveOnly, setShowActiveOnly] = useState(false);
 
     useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const response = await fetch(
-                    "https://jsonplaceholder.typicode.com/users"
-                );
-                const data = await response.json();
+        fetch("https://jsonplaceholder.typicode.com/users")
+            .then((response) => response.json())
+            .then((data) => {
                 setUsers(data);
-            } catch (error) {
-                console.error("Error fetching users:", error);
-            }
-        };
-
-        fetchUsers();
+            });
     }, []);
 
     const handleToggleShowActiveOnly = () => {
